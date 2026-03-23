@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-serif: 'Instrument Serif', serif;
+  --font-sans:  'DM Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-serif-display {
+  font-family: var(--font-serif);
+}
+
+/* Hero grid background */
+.hero-grid {
+  background-image:
+    linear-gradient(#ddddd8 1px, transparent 1px),
+    linear-gradient(90deg, #ddddd8 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
+/* Pulse animation for live dot */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(1.35); }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 2s infinite;
+}
+
+/* Step connector line (desktop only) */
+@media (min-width: 1024px) {
+  .steps-connector::before {
+    content: '';
+    position: absolute;
+    top: 44px;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    background: #ddddd8;
+    z-index: 0;
+  }
+}
+
+/* Left panel subtle grid for Auth */
+.auth-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
