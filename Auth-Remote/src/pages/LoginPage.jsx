@@ -45,7 +45,7 @@ export default function LoginPage({ onSuccess }) {
       const token = await getToken();
 
       // Sync with our backend
-      const res = await fetch("http://localhost:5000/api/auth/sync-clerk", {
+      const res = await fetch(`${process.env.BASE_URL}/api/auth/sync-clerk`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export default function LoginPage({ onSuccess }) {
       if (typeof onSuccess === "function") {
         onSuccess({ token, user });
       } else {
-        window.location.href = "http://localhost:3000/explore";
+        window.location.href = `${process.env.BASE_URL}/explore`;
       }
     } catch (err) {
       console.error("Clerk sync error:", err);

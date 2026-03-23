@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = process.env.BASE_URL;
 
 async function handleResponse(response) {
   const contentType = response.headers.get("content-type");

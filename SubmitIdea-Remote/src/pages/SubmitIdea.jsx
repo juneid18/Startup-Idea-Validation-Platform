@@ -28,7 +28,7 @@ const SubmitIdea = () => {
     setError("");
     setAnalysisResult(null);
     try {
-      const response = await fetch("http://localhost:5000/api/ideas/analyze", {
+      const response = await fetch(`${process.env.BASE_URL}/api/ideas/analyze`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -261,17 +261,17 @@ const SubmitIdea = () => {
                   </ul>
                 </div>
               </div>
-              
+
               <div className="md:w-72 flex flex-col items-center justify-start pt-4 border-t md:border-t-0 md:border-l border-stone-100 md:pl-12">
                 <div className="w-32 h-32 rounded-full border-8 border-stone-50 flex items-center justify-center relative shadow-inner mb-6">
                   <svg className="absolute inset-0 w-full h-full transform -rotate-90">
                     <circle cx="50%" cy="50%" r="46%" fill="none" stroke="#f5f5f4" strokeWidth="8" />
-                    <circle 
-                      cx="50%" cy="50%" r="46%" 
-                      fill="none" 
-                      stroke="#f97316" 
-                      strokeWidth="8" 
-                      strokeDasharray="300" 
+                    <circle
+                      cx="50%" cy="50%" r="46%"
+                      fill="none"
+                      stroke="#f97316"
+                      strokeWidth="8"
+                      strokeDasharray="300"
                       strokeDashoffset={300 - (300 * analysisResult.validationScore) / 100}
                       className="transition-all duration-1000 ease-out"
                     />
@@ -283,12 +283,12 @@ const SubmitIdea = () => {
                 <h4 className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2 text-center">Validation Score</h4>
               </div>
             </div>
-            
+
             <div className="mt-8 pt-8 border-t border-stone-100">
-               <h3 className="text-sm font-bold text-stone-400 uppercase tracking-widest mb-3">AI Feedback</h3>
-               <p className="text-stone-800 text-lg leading-relaxed italic border-l-4 border-orange-500 pl-4 py-1 bg-gradient-to-r from-orange-50/50 to-transparent">
-                 "{analysisResult.analysisResult?.feedback}"
-               </p>
+              <h3 className="text-sm font-bold text-stone-400 uppercase tracking-widest mb-3">AI Feedback</h3>
+              <p className="text-stone-800 text-lg leading-relaxed italic border-l-4 border-orange-500 pl-4 py-1 bg-gradient-to-r from-orange-50/50 to-transparent">
+                "{analysisResult.analysisResult?.feedback}"
+              </p>
             </div>
           </div>
         ) : (
