@@ -81,7 +81,7 @@ export function AuthProvider({ children }) {
       setUser(null);
 
       // Redirect to login
-      window.location.href = "http://localhost:3000/login";
+      window.location.href = "/login";
     }
   };
 

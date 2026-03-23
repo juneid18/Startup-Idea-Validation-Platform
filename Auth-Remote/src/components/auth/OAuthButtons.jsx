@@ -46,7 +46,7 @@ export default function OAuthButtons({ mode = "login" }) {
       await signIn.authenticateWithRedirect({
         strategy: `oauth_${provider}`,
         redirectUrl: "/sso-callback",
-        redirectUrlComplete: "http://localhost:3000/sso-callback",
+        redirectUrlComplete: `${process.env.BASE_URL || "http://localhost:3000"}/sso-callback`,
       });
     } catch (err) {
       console.error("OAuth error:", err);

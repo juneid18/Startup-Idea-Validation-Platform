@@ -25,7 +25,7 @@ export default function SSOCallback() {
         const timeout = setTimeout(() => {
           if (!clerkUser) {
             console.warn("Still no user after 1s. Redirecting to login.");
-            router.push("http://localhost:3000/login");
+            router.push("/login");
           }
         }, 1000);
         return () => clearTimeout(timeout);

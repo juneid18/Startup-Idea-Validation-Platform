@@ -14,7 +14,11 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:3001"], // Host and Remote
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    process.env.HOST_URL,           // host Vercel URL (set in Render env vars)
+  ].filter(Boolean),
   credentials: true
 }));
 app.use(cookieParser());
