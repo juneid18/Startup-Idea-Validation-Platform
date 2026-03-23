@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import SideBar from '@/components/Dashboard/SideBar';
 import SavedContent from '@/components/Saved/SavedContent';
-import Header from '@/components/Dashboard/header';
+import Header from '@/components/Dashboard/Header';
 
 const SavedPage = () => {
   return (
