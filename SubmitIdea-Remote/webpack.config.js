@@ -72,7 +72,7 @@ module.exports = (env, argv) => {
         template: "./public/index.html",
       }),
       new webpack.DefinePlugin({
-        "process.env": JSON.stringify({}),
+        "process.env.BASE_URL": JSON.stringify(process.env.BASE_URL || "https://startup-idea-validation-platform.onrender.com"),
       }),
     ],
   };
