@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased text-stone-900 bg-stone-50/50;
+  }
+}
+
+@layer utilities {
+  .glass-light {
+    @apply bg-white/70 backdrop-blur-xl border border-stone-200;
+  }
+  
+  .glass-hover-light {
+    @apply hover:bg-white/90 hover:border-stone-300 transition-all duration-300;
+  }
+
+  .glow-orange {
+    box-shadow: 0 0 40px rgba(249, 115, 22, 0.1);
+  }
+
+  .gradient-text-orange {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-amber-500;
+  }
+}
