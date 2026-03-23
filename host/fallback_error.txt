@@ -1,0 +1,5 @@
+
+> host@0.1.0 build
+> next build
+
+- info Loaded env from D:\Projects\Startup-Idea-Validation-Platform\host\.env.local

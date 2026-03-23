@@ -9,7 +9,7 @@ const nextConfig = {
 
   webpack(config, options) {
     if (!options.isServer) {
-      const { ModuleFederationPlugin } = require("webpack").container;
+      const { ModuleFederationPlugin } = options.webpack.container;
 
       config.plugins.push(
         new ModuleFederationPlugin({
