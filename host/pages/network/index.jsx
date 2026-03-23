@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import SideBar from '@/components/Dashboard/SideBar';
 import NetworkContent from '@/components/Network/NetworkContent';
-import Header from '@/components/Dashboard/Header';
+import Header from '@/components/Dashboard/header';
 
 const NetworkPage = () => {
   return (

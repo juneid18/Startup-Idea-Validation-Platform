@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import SideBar from '@/components/Dashboard/SideBar';
 import RecentActivityContent from '@/components/RecentActivity/RecentActivityContent';
-import Header from '@/components/Dashboard/Header';
+import Header from '@/components/Dashboard/header';
 
 const RecentActivityPage = () => {
   return (
