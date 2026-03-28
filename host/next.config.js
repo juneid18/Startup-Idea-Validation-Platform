@@ -6,7 +6,7 @@ const nextConfig = {
   env: {
     BASE_URL: process.env.BASE_URL || "https://startup-idea-validation-platform.onrender.com",
   },
-
+  // Comments
   webpack(config, options) {
     if (!options.isServer) {
       const { ModuleFederationPlugin } = options.webpack.container;
