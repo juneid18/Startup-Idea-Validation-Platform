@@ -9,31 +9,7 @@ export default function SSOCallback() {
   const { isLoaded, user: clerkUser } = useUser();
   const { getToken } = useClerkAuth();
 
-  useEffect(() => {
-    console.log("Clerk State:", {
-      isLoaded,
-      hasUser: !!clerkUser,
-      authUser: !!authUser,
-    });
-
-    if (isLoaded) {
-      if (clerkUser && !authUser) {
-        console.log("Found Clerk User, finalizing...");
-        handleFinalize();
-      } else if (!clerkUser) {
-        console.log("No Clerk User found, starting 1s grace period...");
-        const timeout = setTimeout(() => {
-          if (!clerkUser) {
-            console.warn("Still no user after 1s. Redirecting to login.");
-            router.push("/login");
-          }
-        }, 1000);
-        return () => clearTimeout(timeout);
-      }
-    }
-  }, [isLoaded, clerkUser, authUser]);
-
-  const handleFinalize = async () => {
+  const handleFinalize = React.useCallback(async () => {
     try {
       const token = await getToken();
 
@@ -62,7 +38,31 @@ export default function SSOCallback() {
     } catch (err) {
       console.error("SSO Callback Error:", err);
     }
-  };
+  }, [clerkUser, getToken, login, router]);
+
+  useEffect(() => {
+    console.log("Clerk State:", {
+      isLoaded,
+      hasUser: !!clerkUser,
+      authUser: !!authUser,
+    });
+
+    if (isLoaded) {
+      if (clerkUser && !authUser) {
+        console.log("Found Clerk User, finalizing...");
+        handleFinalize();
+      } else if (!clerkUser) {
+        console.log("No Clerk User found, starting 1s grace period...");
+        const timeout = setTimeout(() => {
+          if (!clerkUser) {
+            console.warn("Still no user after 1s. Redirecting to login.");
+            router.push("/login");
+          }
+        }, 1000);
+        return () => clearTimeout(timeout);
+      }
+    }
+  }, [isLoaded, clerkUser, authUser, handleFinalize, router]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen font-sans bg-stone-50">

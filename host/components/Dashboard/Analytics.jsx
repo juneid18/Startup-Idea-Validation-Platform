@@ -61,11 +61,12 @@ const RemoteDashboard = dynamic(
     import('AnalyticsRemote/Dashboard').catch((err) => {
       console.error('[AnalyticsRemote] Module load error:', err);
       // return a fallback component instead of throwing
-      return () => (
+      const RemoteErrorFallback = () => (
         <ErrorUI
           error={{ message: `Could not load remote: ${err.message}` }}
         />
       );
+      return RemoteErrorFallback;
     }),
   { ssr: false, loading: () => <LoadingUI /> }
 );

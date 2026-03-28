@@ -7,7 +7,7 @@ import UserMenu from "../UserMenu";
 export default function Navbar() {
   const [scrolled,  setScrolled]  = useState(false);
   const [menuOpen,  setMenuOpen]  = useState(false);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -98,7 +98,7 @@ export default function Navbar() {
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-3 px-1 mb-4">
                    <div className="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center overflow-hidden">
-                      {user.avatar ? <img src={user.avatar} className="w-full h-full object-cover" /> : <span className="text-white text-xs font-bold">JM</span>}
+                      {user.avatar ? <img src={user.avatar} alt="User avatar" className="w-full h-full object-cover" /> : <span className="text-white text-xs font-bold">JM</span>}
                    </div>
                    <div>
                       <p className="text-sm font-bold text-stone-900 leading-none mb-1">{user.name}</p>

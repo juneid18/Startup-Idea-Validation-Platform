@@ -104,7 +104,7 @@ const ProfileContent = () => {
                   {user.avatarUrl ? (
                     <img
                       src={user.avatarUrl}
-                      alt={user.name}
+                      alt={user.name || "Profile picture"}
                       className="w-full h-full object-contain rounded-[30px]"
                     />
                   ) : (
