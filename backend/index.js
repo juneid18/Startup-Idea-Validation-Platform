@@ -15,6 +15,7 @@ connectDB();
 // Middleware
 app.use(cors({
   origin: [
+    "https://startup-idea-validation-platform-ca.vercel.app",
     "http://localhost:3000",
     "http://localhost:3001",
     process.env.HOST_URL,           // host Vercel URL (set in Render env vars)
