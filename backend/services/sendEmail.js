@@ -3,20 +3,26 @@ import nodemailer from "nodemailer";
 
 export const sendEmail = async (to, subject, text) => {
   try {
+    const host = process.env.EMAIL_HOST || "smtp.gmail.com";
+    const port = Number(process.env.EMAIL_PORT || 587);
+    const secure = process.env.EMAIL_SECURE === "true" || port === 465;
+
     const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      secure: process.env.EMAIL_SECURE === "true", // true for 465, false for other ports
+      host,
+      port,
+      secure,
+      requireTLS: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
       connectionTimeout: 15000,
       socketTimeout: 15000,
+      dns: { family: 4 },
     });
 
     const mailOptions = {
-      from: process.env.EMAIL_FROM,
+      from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
       to,
       subject,
       text,

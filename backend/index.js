@@ -5,6 +5,19 @@ import ideaRoutes from "./routes/ideaRoute.js";
 import dotenv from "dotenv";
 dotenv.config();
 
+const requiredEnvs = [
+  "MONGO_URI",
+  "JWT_SECRET",
+  "JWT_REFRESH_SECRET",
+  "EMAIL_USER",
+  "EMAIL_PASS",
+];
+const missingEnvs = requiredEnvs.filter((key) => !process.env[key]);
+if (missingEnvs.length > 0) {
+  console.error("Missing required environment variables:", missingEnvs);
+  process.exit(1);
+}
+
 import connectDB from "./config/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
