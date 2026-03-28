@@ -13,7 +13,7 @@ const nextConfig = {
 
       // Fix for RealContentHashPlugin error on Vercel build cache
       config.optimization.realContentHash = false;
-      
+      // If its works
       // Enable topLevelAwait for better MF support
       config.experiments = {
         ...config.experiments,
