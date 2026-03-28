@@ -1,6 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useUser, useAuth as useClerkAuth } from "@clerk/nextjs";
 
 export default function SSOCallback() {
