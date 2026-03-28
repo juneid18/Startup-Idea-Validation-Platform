@@ -1,11 +1,18 @@
 // Write nodemailer code to send email to user when they sign up or reset password
 import nodemailer from "nodemailer";
+import dns from "dns";
+
+// Force IPv4 DNS resolution globally for this module to avoid ENETUNREACH on IPv6
+dns.setDefaultResultOrder("ipv4first");
 
 export const sendEmail = async (to, subject, text) => {
   try {
     const host = process.env.EMAIL_HOST || "smtp.gmail.com";
+    // Default to port 587 (STARTTLS) — more reliable than 465 (SSL) on most networks
     const port = Number(process.env.EMAIL_PORT || 587);
-    const secure = process.env.EMAIL_SECURE === "true" || port === 465;
+    // secure: false + requireTLS: true = STARTTLS (upgrades connection after handshake)
+    // Only use secure: true if port is explicitly set to 465 in env
+    const secure = process.env.EMAIL_SECURE === "true";
 
     const transporter = nodemailer.createTransport({
       host,
@@ -18,7 +25,6 @@ export const sendEmail = async (to, subject, text) => {
       },
       connectionTimeout: 15000,
       socketTimeout: 15000,
-      dns: { family: 4 },
     });
 
     const mailOptions = {
