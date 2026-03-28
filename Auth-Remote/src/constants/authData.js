@@ -1,5 +1,5 @@
-export const REDIRECT_AFTER_LOGIN  = `${process.env.BASE_URL || "http://localhost:3000"}/explore`;
-export const REDIRECT_AFTER_SIGNUP = `${process.env.BASE_URL || "http://localhost:3000"}/explore`;
+export const REDIRECT_AFTER_LOGIN  = `${process.env.FRONTEND_URL || "http://localhost:3000"}/explore`;
+export const REDIRECT_AFTER_SIGNUP = `${process.env.FRONTEND_URL || "http://localhost:3000"}/explore`;
 
 export const OAUTH_PROVIDERS = [
   { id: "google", label: "Google", icon: "google" },
