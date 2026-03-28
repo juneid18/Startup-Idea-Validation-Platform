@@ -11,6 +11,15 @@ const nextConfig = {
     if (!options.isServer) {
       const { ModuleFederationPlugin } = options.webpack.container;
 
+      // Fix for RealContentHashPlugin error on Vercel build cache
+      config.optimization.realContentHash = false;
+      
+      // Enable topLevelAwait for better MF support
+      config.experiments = {
+        ...config.experiments,
+        topLevelAwait: true,
+      };
+
       config.plugins.push(
         new ModuleFederationPlugin({
           name: "nextHost",
