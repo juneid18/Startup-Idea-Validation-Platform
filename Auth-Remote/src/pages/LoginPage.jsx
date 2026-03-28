@@ -12,7 +12,7 @@ import {
   useAuth as useClerkAuth,
   useUser as useClerkUser,
 } from "@clerk/clerk-react";
-import { loginUser, saveToken } from "../utils/authApi";
+import { loginUser, saveToken, saveAuth } from "../utils/authApi";
 import { ERROR_MESSAGES, REDIRECT_AFTER_LOGIN } from "../constants/authData";
 import { useEffect } from "react";
 
@@ -62,7 +62,7 @@ export default function LoginPage({ onSuccess }) {
 
       const { user } = await res.json();
 
-      saveToken(token);
+      saveAuth(token, user);
 
       if (typeof onSuccess === "function") {
         onSuccess({ token, user });
@@ -82,10 +82,12 @@ export default function LoginPage({ onSuccess }) {
     if (!validate()) return;
     setLoading(true);
     try {
-      const { token } = await loginUser(fields);
-      saveToken(token);
-      window.location.href = REDIRECT_AFTER_LOGIN;
-    } catch {
+      const { token, user } = await loginUser(fields);
+      saveAuth(token, user);
+      
+      const _base = (typeof window !== "undefined" ? window.location.origin : "") || process.env.FRONTEND_URL || "http://localhost:3000";
+      window.location.href = `${_base}/explore`;
+    } catch (err) {
       setApiError(ERROR_MESSAGES.loginFailed);
     } finally {
       setLoading(false);

@@ -44,5 +44,23 @@ export async function forgotPassword({ email }) {
 }
 
 export const saveToken = (token) => localStorage.setItem("auth_token", token);
+export const saveUser = (user) => localStorage.setItem("auth_user", JSON.stringify(user));
+
+export const saveAuth = (token, user) => {
+  saveToken(token);
+  if (user) saveUser(user);
+};
+
 export const getToken = () => localStorage.getItem("auth_token");
-export const clearToken = () => localStorage.removeItem("auth_token");
+export const getUser = () => {
+  const u = localStorage.getItem("auth_user");
+  try {
+    return u ? JSON.parse(u) : null;
+  } catch {
+    return null;
+  }
+};
+export const clearToken = () => {
+  localStorage.removeItem("auth_token");
+  localStorage.removeItem("auth_user");
+};

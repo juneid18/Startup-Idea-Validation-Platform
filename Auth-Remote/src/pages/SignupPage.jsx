@@ -8,7 +8,7 @@ import {
   ApiErrorBanner,
 } from "../components/auth/AuthUI";
 import { useAuthForm } from "../hooks/useAuthForm";
-import { signupUser, saveToken } from "../utils/authApi";
+import { signupUser, saveToken, saveAuth } from "../utils/authApi";
 import { ERROR_MESSAGES, REDIRECT_AFTER_SIGNUP } from "../constants/authData";
 
 const INITIAL_FIELDS = {
@@ -40,13 +40,15 @@ export default function SignupPage({ onSuccess }) {
     setLoading(true);
     try {
       const { token, user } = await signupUser(fields);
-      saveToken(token);
+      saveAuth(token, user);
+      
       if (typeof onSuccess === "function") {
         // Module Federation mode — pass data to host
         onSuccess({ token, user });
       } else {
-        // Standalone mode
-        window.location.href = REDIRECT_AFTER_SIGNUP;
+        // Standalone mode / Production redirect
+        const _base = (typeof window !== "undefined" ? window.location.origin : "") || process.env.FRONTEND_URL || "http://localhost:3000";
+        window.location.href = `${_base}/explore`;
       }
     } catch (err) {
       setApiError(
