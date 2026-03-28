@@ -1,4 +1,4 @@
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = process.env.BASE_URL?.trim() || "";
 
 async function handleResponse(response) {
   const contentType = response.headers.get("content-type");
@@ -17,6 +17,7 @@ export async function loginUser({ email, password }) {
   const res = await fetch(`${BASE_URL}/api/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "include", // Required for cross-domain cookies
     body: JSON.stringify({ email, password }),
   });
   return handleResponse(res);
@@ -26,6 +27,7 @@ export const signupUser = async ({ name, email, password }) => {
   const res = await fetch(`${BASE_URL}/api/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "include", // Required for cross-domain cookies
     body: JSON.stringify({ name, email, password }),
   });
   return handleResponse(res);
@@ -35,6 +37,7 @@ export async function forgotPassword({ email }) {
   const res = await fetch(`${BASE_URL}/api/auth/forgot-password`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify({ email }),
   });
   return handleResponse(res);

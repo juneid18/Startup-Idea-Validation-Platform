@@ -51,6 +51,7 @@ export default function LoginPage({ onSuccess }) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        credentials: "include",
         body: JSON.stringify({
           id: clerkUser.id,
           email: clerkUser.primaryEmailAddress?.emailAddress,
@@ -66,7 +67,9 @@ export default function LoginPage({ onSuccess }) {
       if (typeof onSuccess === "function") {
         onSuccess({ token, user });
       } else {
-        window.location.href = `${process.env.BASE_URL}/explore`;
+        // Fallback to current domain (the host app) NOT the backend URL
+        const frontendUrl = (typeof window !== "undefined" ? window.location.origin : "") || process.env.FRONTEND_URL || "http://localhost:3000";
+        window.location.href = `${frontendUrl}/explore`;
       }
     } catch (err) {
       console.error("Clerk sync error:", err);
