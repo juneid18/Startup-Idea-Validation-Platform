@@ -48,11 +48,14 @@ const Login = async (req, res) => {
       });
     }
 
-    await sendEmail(
+    // Fire email asynchronously (do not block response)
+    sendEmail(
       normalizedEmail,
       "New Login Alert",
       `Your account was just accessed. If this wasn't you, please reset your password immediately.`,
-    );
+    ).catch((err) => {
+      console.error("Failed to send New Login Alert email:", err);
+    });
 
     const accessToken = jwt.sign(
       { id: user._id, email: user.email },
@@ -157,11 +160,14 @@ const Register = async (req, res) => {
       password, // Password will be hashed by pre-save hook in userSchema
     });
 
-    await sendEmail(
+    // Fire welcome email asynchronously, keep register response fast
+    sendEmail(
       normalizedEmail,
       "Welcome to Our App",
       "Thank you for signing up!",
-    );
+    ).catch((err) => {
+      console.error("Failed to send welcome email:", err);
+    });
 
     const token = jwt.sign(
       { id: newUser._id, email: newUser.email },
