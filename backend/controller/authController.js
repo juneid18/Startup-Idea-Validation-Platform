@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import dotenv from "dotenv";
 import { sendEmail } from "../services/sendEmail.js";
+import generateUsername from "../helper/generateUsername.js";
 dotenv.config();
 
 const Login = async (req, res) => {
@@ -20,7 +21,9 @@ const Login = async (req, res) => {
     const normalizedEmail = email.trim().toLowerCase();
 
     // Must explicitly select password because it is hidden in schema
-    const user = await User.findOne({ email: normalizedEmail }).select("+password");
+    const user = await User.findOne({ email: normalizedEmail }).select(
+      "+password",
+    );
 
     if (!user) {
       return res.status(401).json({
@@ -108,8 +111,9 @@ const syncClerkUser = async (req, res) => {
           name: name || email.split("@")[0],
           avatarUrl: avatar || null,
           username:
-            (name ? name.replace(/\s+/g, "").toLowerCase() : email.split("@")[0]) +
-            Math.floor(Math.random() * 1000),
+            (name
+              ? name.replace(/\s+/g, "").toLowerCase()
+              : email.split("@")[0]) + Math.floor(Math.random() * 1000),
           isEmailVerified: true,
         });
       }
@@ -117,9 +121,8 @@ const syncClerkUser = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      user:    user.toPublicJSON(),
+      user: user.toPublicJSON(),
     });
-
   } catch (err) {
     console.error("Clerk sync error:", err);
     return res.status(500).json({ success: false, message: "Sync failed." });
@@ -127,9 +130,9 @@ const syncClerkUser = async (req, res) => {
 };
 const Register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!username || !email || !password) {
+    if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -148,8 +151,11 @@ const Register = async (req, res) => {
       });
     }
 
+    // Generate unique username if not provided
+    const username = await generateUsername(name);
     const newUser = await User.create({
-      username: normalizedUsername,
+      username,
+      name,
       email: normalizedEmail,
       password, // Password will be hashed by pre-save hook in userSchema
     });
@@ -308,20 +314,22 @@ const ResetPassword = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { email, clerkId, name, backstory, location, expertise } = req.body;
-    
+
     // Find user by email (primary) or clerkId
     let user = null;
     if (email) user = await User.findByEmail(email);
     else if (clerkId) user = await User.findOne({ clerkId });
 
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found." });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
     }
 
     // Update fields if provided
-    if (name !== undefined)      user.name = name;
+    if (name !== undefined) user.name = name;
     if (backstory !== undefined) user.backstory = backstory;
-    if (location !== undefined)  user.location = location;
+    if (location !== undefined) user.location = location;
     if (expertise !== undefined) user.expertise = expertise;
 
     await user.save();
@@ -346,35 +354,45 @@ const getAllUsers = async (req, res) => {
     const users = await User.find().select("-password").sort({ createdAt: -1 });
     res.status(200).json({ success: true, data: users });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server error fetching users" });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error fetching users" });
   }
 };
 
 const toggleConnection = async (req, res) => {
   try {
     const { userId, targetId } = req.body;
-    if (!userId || !targetId) return res.status(400).json({ success: false, message: "Missing IDs" });
-    
+    if (!userId || !targetId)
+      return res.status(400).json({ success: false, message: "Missing IDs" });
+
     let user = await User.findOne({ clerkId: userId });
     if (!user) user = await User.findById(userId); // Fallback
-    
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
 
     // Handle string IDs regardless of mongoose ObjectIds
     const strTargetId = targetId.toString();
 
     let connected = false;
     if (user.connections.includes(strTargetId)) {
-        user.connections = user.connections.filter(col => col !== strTargetId);
+      user.connections = user.connections.filter((col) => col !== strTargetId);
     } else {
-        user.connections.push(strTargetId);
-        connected = true;
+      user.connections.push(strTargetId);
+      connected = true;
     }
     await user.save();
 
-    res.status(200).json({ success: true, connected, connections: user.connections });
+    res
+      .status(200)
+      .json({ success: true, connected, connections: user.connections });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Server error handling connection" });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error handling connection" });
   }
 };
 
