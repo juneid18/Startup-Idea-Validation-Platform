@@ -181,8 +181,8 @@ const ProfileContent = () => {
                 />
               ) : (
                 <p className="text-sm text-stone-600 leading-relaxed italic max-w-2xl">
-                  "{user.backstory ||
-                    "No backstory provided yet. Add one to show the world your founder roots."}"
+                  “{user.backstory ||
+                    "No backstory provided yet. Add one to show the world your founder roots."}”
                 </p>
               )}
             </div>

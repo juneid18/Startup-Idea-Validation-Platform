@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import SideBar from '@/components/Dashboard/SideBar';
 import SettingsContent from '@/components/Settings/SettingsContent';
-import Header from '@/components/Dashboard/header';
+import Header from '@/components/Dashboard/Header';
 
 const SettingsPage = () => {
   return (

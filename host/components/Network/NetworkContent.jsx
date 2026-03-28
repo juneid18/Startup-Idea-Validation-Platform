@@ -131,7 +131,7 @@ const NetworkContent = () => {
                         </div>
 
                         <div className="space-y-3">
-                            <p className="text-sm text-stone-600 italic leading-relaxed line-clamp-2">"{member.bio}"</p>
+                            <p className="text-sm text-stone-600 italic leading-relaxed line-clamp-2">“{member.bio}”</p>
                             <div className="flex flex-wrap gap-2">
                                 {member.expertise.map(skill => (
                                     <span key={skill} className="px-2.5 py-1 bg-stone-50 border border-stone-100 rounded-lg text-[10px] font-bold text-stone-500 uppercase tracking-wider">
