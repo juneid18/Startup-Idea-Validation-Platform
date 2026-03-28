@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../models/userSchema.js";
 
 const generateUsername = async (name) => {
   let username;

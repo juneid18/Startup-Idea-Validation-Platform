@@ -137,11 +137,8 @@ const Register = async (req, res) => {
     }
 
     const normalizedEmail = email.trim().toLowerCase();
-    const normalizedUsername = username.trim();
 
-    const existingUser = await User.findOne({
-      $or: [{ email: normalizedEmail }, { username: normalizedUsername }],
-    });
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       const field =
         existingUser.email === normalizedEmail ? "email" : "username";
